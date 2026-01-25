@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIRU AI | POWERED BY VIRUNA</title>
+    <title>VIRU AI | BY VIRUNA</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -94,7 +94,6 @@
             color: #e2e8f0;
         }
 
-        /* Animated Dots */
         .typing-dots { display: flex; gap: 5px; padding: 10px; }
         .typing-dots span {
             width: 8px; height: 8px;
@@ -153,6 +152,14 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        footer {
+            padding: 10px;
+            text-align: center;
+            font-size: 10px;
+            color: #4b5563;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -161,19 +168,20 @@
     <header>
         <div>
             <span style="font-weight: 800; font-size: 20px; letter-spacing: 1px;">VIRU <span style="color: var(--primary);">AI</span></span>
-            <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;"><span class="status-dot"></span> Smart Language Detection</div>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;"><span class="status-dot"></span> Online | High Response</div>
         </div>
         <button class="btn-clear" onclick="clearChat()">Clear Chat</button>
     </header>
 
     <div id="chat-window">
-        <div class="msg ai-msg">Hello Viruna! මම VIRU AI. කොහොමද මචං අද දවස? 🚀🔥</div>
+        <div class="msg ai-msg">මචං විරුණ! මම VIRU AI. අද මොන වගේ ගැම්මක්ද තියෙන්නේ? 🚀🔥</div>
     </div>
 
     <div class="input-group">
         <input type="text" id="userInput" placeholder="Ask me anything..." onkeypress="if(event.key === 'Enter') sendMessage()">
         <button class="btn-send" onclick="sendMessage()">SEND</button>
     </div>
+    <footer>CREATED BY VIRUNA</footer>
 </div>
 
 <script>
@@ -194,10 +202,9 @@
         chatWindow.scrollTop = chatWindow.scrollHeight;
 
         try {
-            // Updated Precise Instructions
-            const systemPrompt = "Your name is VIRU AI, created by Viruna. You are a cool Sri Lankan assistant. Rule 1: Use natural, friendly Sinhala if user speaks Sinhala. Rule 2: Use English if user speaks English. Rule 3: For 'Hi', use both languages. Rule 4: Always add cool emojis. Rule 5: Don't use formal/bookish Sinhala.";
+            // 🎯 ලංකාවේ විදිහට ටියුන් කරපු නියෝග
+            const systemPrompt = "Your name is VIRU AI, created by Viruna. You are a cool Sri Lankan assistant. Rule 1: Use natural, friendly, colloquial Sinhala (NOT formal/bookish). Rule 2: Use words like 'මචං', 'එල', 'ගැම්මක්'. Rule 3: For 'Hi', use both English and Sinhala. Rule 4: Always add cool emojis. Rule 5: If user says 'track da', they are asking if you're crazy, so reply in a funny way.";
             
-            // Separation of user message and system instructions
             const url = `https://text.pollinations.ai/${encodeURIComponent(text)}?system=${encodeURIComponent(systemPrompt)}&model=openai&seed=${Math.floor(Math.random() * 1000)}`;
             
             const response = await fetch(url);
@@ -206,7 +213,7 @@
             chatWindow.removeChild(loadingDiv);
             chatWindow.innerHTML += `<div class="msg ai-msg">${aiText.trim()}</div>`;
         } catch (e) {
-            loadingDiv.innerText = "Error! Try again මචං. 😅";
+            loadingDiv.innerText = "Error! ආයේ ට්‍රයි කරමු මචං. 😅";
         }
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
