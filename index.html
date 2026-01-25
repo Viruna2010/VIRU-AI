@@ -3,35 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIRU PRO AI | ULTIMATE</title>
+    <title>VIRU PRO AI | POWERED BY VIRUNA</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00ff88; --secondary: #00bdff; --bg: #050505; --glass: rgba(255, 255, 255, 0.05); --border: rgba(255, 255, 255, 0.1); }
+        :root {
+            --primary: #00f2ff;
+            --secondary: #006ae6;
+            --bg: #080a10;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
         * { box-sizing: border-box; transition: all 0.3s ease; }
-        body { margin: 0; font-family: 'Inter', 'Noto Sans Sinhala', sans-serif; background: #000; color: white; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        .app-container { width: 95%; max-width: 800px; height: 85vh; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 20px; display: flex; flex-direction: column; }
-        header { padding: 20px; border-bottom: 1px solid var(--border); text-align: center; background: rgba(255,255,255,0.02); border-radius: 20px 20px 0 0; }
-        #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { max-width: 80%; padding: 12px 18px; border-radius: 15px; font-size: 15px; line-height: 1.5; }
-        .user-msg { align-self: flex-end; background: var(--primary); color: black; font-weight: 500; }
-        .ai-msg { align-self: flex-start; background: #1a1a1a; border: 1px solid var(--border); }
-        .input-group { padding: 20px; display: flex; gap: 10px; }
-        input { flex: 1; background: #111; border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: white; outline: none; }
-        button { background: white; color: black; border: none; padding: 0 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
+            background: radial-gradient(circle at top right, #0a192f, var(--bg));
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .app-container {
+            width: 95%;
+            max-width: 850px;
+            height: 90vh;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        header {
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .status-dot {
+            width: 10px; height: 10px;
+            background: #00ff88;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px #00ff88;
+        }
+
+        #chat-window {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            scrollbar-width: thin;
+        }
+
+        .msg {
+            max-width: 80%;
+            padding: 14px 20px;
+            border-radius: 18px;
+            line-height: 1.6;
+            font-size: 15px;
+            animation: fadeIn 0.4s ease forwards;
+            position: relative;
+        }
+
+        .user-msg {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            font-weight: 500;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-msg {
+            align-self: flex-start;
+            background: #1a1f2e;
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+            color: #e2e8f0;
+        }
+
+        .loading {
+            font-style: italic;
+            opacity: 0.7;
+            font-size: 13px;
+        }
+
+        .input-group {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            gap: 12px;
+            border-radius: 0 0 24px 24px;
+        }
+
+        input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            padding: 15px 20px;
+            border-radius: 15px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--primary); }
+
+        .btn-send {
+            background: white;
+            color: black;
+            border: none;
+            padding: 0 25px;
+            border-radius: 15px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .btn-clear {
+            background: rgba(255, 50, 50, 0.1);
+            color: #ff5050;
+            border: 1px solid rgba(255, 50, 50, 0.2);
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
+
 <div class="app-container">
     <header>
-        <span style="font-weight: 800; font-size: 20px; color: var(--primary);">VIRU PRO AI</span>
-        <div style="font-size: 10px; color: #888;">UNSTOPPABLE VERSION 🚀</div>
+        <div>
+            <span style="font-weight: 800; font-size: 20px; letter-spacing: 1px;">VIRU <span style="color: var(--primary);">PRO</span> AI</span>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;"><span class="status-dot"></span> Active | Stable v3.0</div>
+        </div>
+        <button class="btn-clear" onclick="clearChat()">Clear Chat</button>
     </header>
+
     <div id="chat-window">
-        <div class="msg ai-msg">හලෝ විරුණ! මම දැන් ලෑස්තියි. මේ පාර නම් මම අනිවාර්යයෙන්ම වැඩ කරනවා. අහන්න බලන්න ප්‍රශ්නයක්! 🔥</div>
+        <div class="msg ai-msg">හලෝ විරුණ! මම VIRU PRO AI. මම දැන් උපරිම වේගයෙන් වැඩ කරන්න ලෑස්තියි. මගෙන් ඕනෑම දෙයක් අහන්න. 🚀</div>
     </div>
+
     <div class="input-group">
-        <input type="text" id="userInput" placeholder="මෙතන ලියන්න..." onkeypress="if(event.key === 'Enter') sendMessage()">
-        <button onclick="sendMessage()">SEND</button>
+        <input type="text" id="userInput" placeholder="මෙතන සිංහලෙන් ලියන්න..." onkeypress="if(event.key === 'Enter') sendMessage()">
+        <button class="btn-send" onclick="sendMessage()">SEND</button>
     </div>
 </div>
 
@@ -40,29 +174,39 @@
         const input = document.getElementById('userInput');
         const chatWindow = document.getElementById('chat-window');
         const text = input.value.trim();
+        
         if (!text) return;
 
+        // User Message
         chatWindow.innerHTML += `<div class="msg user-msg">${text}</div>`;
         input.value = '';
         
+        // Add Loading
         const loadingDiv = document.createElement("div");
-        loadingDiv.className = "msg ai-msg";
+        loadingDiv.className = "msg ai-msg loading";
         loadingDiv.innerText = "සිතමින් සිටී...";
         chatWindow.appendChild(loadingDiv);
         chatWindow.scrollTop = chatWindow.scrollHeight;
 
         try {
-            // No Key Needed API
-            const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(text + " . Answer in friendly Sinhala language.")}`);
+            // Turbo Speed API Call
+            const prompt = `Your name is VIRU PRO AI, created by Viruna. Answer in natural, friendly, modern Sinhala. User says: ${text}`;
+            const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}?model=searchgpt&seed=${Math.floor(Math.random() * 1000)}`);
+            
             const aiText = await response.text();
             
             chatWindow.removeChild(loadingDiv);
             chatWindow.innerHTML += `<div class="msg ai-msg">${aiText}</div>`;
         } catch (e) {
-            loadingDiv.innerText = "පොඩි අවුලක් මචං. ආයේ ට්‍රයි කරන්න!";
+            loadingDiv.innerText = "පොඩි අවුලක් මචං. ආයෙත් මැසේජ් එකක් දාලා බලන්න.";
         }
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
+
+    function clearChat() {
+        document.getElementById('chat-window').innerHTML = `<div class="msg ai-msg">චැට් එක මැකුවා. අපි අලුතින් පටන් ගමු! 😊</div>`;
+    }
 </script>
+
 </body>
 </html>
