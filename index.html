@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIRU AI | BY VIRUNA</title>
+    <title>VIRU AI | POWERED BY VIRUNA</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -150,7 +150,7 @@
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            to { opacity: 1; opacity: 1; transform: translateY(0); }
         }
 
         footer {
@@ -158,7 +158,6 @@
             text-align: center;
             font-size: 10px;
             color: #4b5563;
-            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -168,17 +167,17 @@
     <header>
         <div>
             <span style="font-weight: 800; font-size: 20px; letter-spacing: 1px;">VIRU <span style="color: var(--primary);">AI</span></span>
-            <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;"><span class="status-dot"></span> Online | High Response</div>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;"><span class="status-dot"></span> Mega Trained Mode Active</div>
         </div>
         <button class="btn-clear" onclick="clearChat()">Clear Chat</button>
     </header>
 
     <div id="chat-window">
-        <div class="msg ai-msg">මචං විරුණ! මම VIRU AI. අද මොන වගේ ගැම්මක්ද තියෙන්නේ? 🚀🔥</div>
+        <div class="msg ai-msg">මචං විරුණ! මම VIRU AI. මාව දැන් පට්ටටම ට්‍රේන් කරල තියෙන්නේ. අහන්න බලන්න මොනවා හරි! 🚀🔥</div>
     </div>
 
     <div class="input-group">
-        <input type="text" id="userInput" placeholder="Ask me anything..." onkeypress="if(event.key === 'Enter') sendMessage()">
+        <input type="text" id="userInput" placeholder="ඔයාට ඕන දෙයක් අහන්න..." onkeypress="if(event.key === 'Enter') sendMessage()">
         <button class="btn-send" onclick="sendMessage()">SEND</button>
     </div>
     <footer>CREATED BY VIRUNA</footer>
@@ -189,7 +188,6 @@
         const input = document.getElementById('userInput');
         const chatWindow = document.getElementById('chat-window');
         const text = input.value.trim();
-        
         if (!text) return;
 
         chatWindow.innerHTML += `<div class="msg user-msg">${text}</div>`;
@@ -202,10 +200,22 @@
         chatWindow.scrollTop = chatWindow.scrollHeight;
 
         try {
-            // 🎯 ලංකාවේ විදිහට ටියුන් කරපු නියෝග
-            const systemPrompt = "Your name is VIRU AI, created by Viruna. You are a cool Sri Lankan assistant. Rule 1: Use natural, friendly, colloquial Sinhala (NOT formal/bookish). Rule 2: Use words like 'මචං', 'එල', 'ගැම්මක්'. Rule 3: For 'Hi', use both English and Sinhala. Rule 4: Always add cool emojis. Rule 5: If user says 'track da', they are asking if you're crazy, so reply in a funny way.";
-            
-            const url = `https://text.pollinations.ai/${encodeURIComponent(text)}?system=${encodeURIComponent(systemPrompt)}&model=openai&seed=${Math.floor(Math.random() * 1000)}`;
+            // 🎯 මේක තමයි මූව 100% ට්‍රේන් කරන සිස්ටම් එක
+            const megaTrainingContext = `
+                Role: You are VIRU AI, a cool Sri Lankan male assistant created by Viruna.
+                Tone: Very casual, friendly, funny, and 100% Sri Lankan local style.
+                Vocabulary: Use ONLY words like 'මචං', 'එල', 'ගැම්මක්', 'පට්ට', 'සුපිරි', 'අඩෝ', 'අනිවා', 'බොක්ක', 'කොහොමද ඉතින්'.
+                
+                Strict Rules:
+                1. NEVER use bookish or formal Sinhala translations.
+                2. NEVER use weird words like 'හෙදිදානවා' or 'ඇලූ බේ‍රියාව'.
+                3. If user says 'hi' or 'hello', say: 'අඩෝ හෙලෝ මචං! Hi there! කොහොමද ඉතින්? 👋'
+                4. If user types in Sinhala, use local colloquial Sinhala ONLY.
+                5. If user says 'track da', reply: 'අඩෝ පොඩ්ඩක් විතර ට්‍රැක් පැනලා තියෙන්නේ මචං! 😂🔥'
+                6. Keep every answer short (max 2 sentences) and add cool emojis.
+            `;
+
+            const url = `https://text.pollinations.ai/${encodeURIComponent(text)}?system=${encodeURIComponent(megaTrainingContext)}&model=openai&seed=${Math.floor(Math.random() * 99999)}`;
             
             const response = await fetch(url);
             const aiText = await response.text();
@@ -219,7 +229,7 @@
     }
 
     function clearChat() {
-        document.getElementById('chat-window').innerHTML = `<div class="msg ai-msg">Chat cleared! අලුතින් පටන් ගමු මචං. 🚀</div>`;
+        document.getElementById('chat-window').innerHTML = `<div class="msg ai-msg">හරි මචං, අලුතින් පටන් ගමු! 🚀</div>`;
     }
 </script>
 
