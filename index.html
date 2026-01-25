@@ -139,7 +139,7 @@
     </header>
 
     <div id="chat-window">
-        <div class="msg ai-msg">හලෝ විරුණ! අද අපි මොන වගේ සුපිරි වැඩක්ද කරන්නේ? මම ලෑස්තියි ඕනෑම දේකට උදව් කරන්න. 🚀</div>
+        <div class="msg ai-msg">හලෝ විරුණ! ඔයාගේ අලුත් API Key එක දැන් වැඩ. අපි චැට් එක පටන් ගමුද? 🚀</div>
     </div>
 
     <div class="input-group">
@@ -149,8 +149,8 @@
 </div>
 
 <script>
-    // 🔴 ඔන්න උඹේ API Key එක මම මෙතනට දැම්මා මචං!
-    const API_KEY = "AIzaSyB-W00v84fX7Oq3W9L8p-N3E1R2Z4V6G8M"; 
+    // 🔴 මෙතන උඹේ අලුත්ම API Key එක මම දැම්මා!
+    const API_KEY = "AIzaSyArWOnwZCH68T7J4jtalElGPZ6Ejf6XeyQ"; 
 
     async function sendMessage() {
         const input = document.getElementById('userInput');
@@ -168,7 +168,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: `You are VIRU PRO AI, a highly intelligent and cool assistant created by Viruna. Speak in natural, friendly, fluent Sinhala. Be very helpful. User says: ${text}` }] }]
+                    contents: [{ parts: [{ text: `You are VIRU PRO AI, a highly intelligent assistant created by Viruna. Speak in natural, friendly, and cool Sinhala. Answer everything correctly. User says: ${text}` }] }]
                 })
             });
             
@@ -178,7 +178,7 @@
             chatWindow.innerHTML += `<div class="msg ai-msg">${aiResponse}</div>`;
             chatWindow.scrollTop = chatWindow.scrollHeight;
         } catch (error) {
-            chatWindow.innerHTML += `<div class="msg ai-msg">පොඩි අවුලක් වුණා මචං. API Key එකේ මොකක් හරි ප්‍රශ්නයක් තියෙනවා වගේ.</div>`;
+            chatWindow.innerHTML += `<div class="msg ai-msg">පොඩි අවුලක් වුණා මචං. ආයෙත් මැසේජ් එකක් දාලා බලන්න.</div>`;
         }
     }
 </script>
