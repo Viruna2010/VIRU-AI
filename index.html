@@ -190,11 +190,11 @@
         const text = input.value.trim();
         if (!text) return;
 
-        // 🎯 1. User මැසේජ් එක Display කරනවා
+        // 1. User Message පෙන්නනවා (Instant Response feel එකක් දෙන්න)
         chatWindow.innerHTML += `<div class="msg user-msg">${text}</div>`;
         input.value = '';
         
-        // 🎯 2. Typing Loader එක පෙන්නනවා
+        // 2. Typing Loader එක දානවා
         const loadingDiv = document.createElement("div");
         loadingDiv.className = "msg ai-msg";
         loadingDiv.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div>`;
@@ -202,20 +202,28 @@
         chatWindow.scrollTop = chatWindow.scrollHeight;
 
         try {
-            // 🎯 3. උඹේ Vercel API එකට Connect වෙනවා
-            const apiUrl = `https://viru-ai-api.vercel.app/api/chat?msg=${encodeURIComponent(text)}`;
-            const response = await fetch(apiUrl);
+            // 🎯 රිප්ලයි එක එන්න පරක්කු නම් යූසර්ට මැසේජ් එකක් දෙන්න timeout එකක් දාමු
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // තත්පර 10ක් බලනවා
+
+            // 🎯 උඹේ Vercel API එක
+            const response = await fetch(`https://viru-ai-api.vercel.app/api/chat?msg=${encodeURIComponent(text)}`, { signal: controller.signal });
             const data = await response.json();
             
+            clearTimeout(timeoutId);
             chatWindow.removeChild(loadingDiv);
             
-            // 🎯 4. Backend එකෙන් එන Reply එක පෙන්වනවා
-            // (දන්නේ නැති දෙයක් වුණොත් Backend එකෙන්ම "විරුණ තාම..." කෑල්ල එනවා)
+            // 🎯 Backend එකෙන් එන Reply එක
             chatWindow.innerHTML += `<div class="msg ai-msg">${data.reply}</div>`;
             
         } catch (e) {
             chatWindow.removeChild(loadingDiv);
-            chatWindow.innerHTML += `<div class="msg ai-msg">අඩෝ සර්වර් එකේ පොඩි අවුලක් මචං! ආයේ ට්‍රයි කරමු. 😅👊</div>`;
+            if (e.name === 'AbortError') {
+                chatWindow.innerHTML += `<div class="msg ai-msg">නෙට් එක ටිකක් ස්ලෝ වගේ මචං, පොඩ්ඩක් ඉඳලා ආයේ ට්‍රයි කරමු! 😅👊</div>`;
+            } else {
+                // සර්වර් එකේ අවුලක් වුණොත් උඹේ Signature එකම දෙනවා
+                chatWindow.innerHTML += `<div class="msg ai-msg">විරුණ තාම මට ඕවා කියලා දුන්නේ නෑ බං, එයාටත් වැඩ නේ ඉතින්.. 😂😅👊</div>`;
+            }
         }
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
