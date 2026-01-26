@@ -3,23 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIRU AI | POWERED BY VIRUNA</title>
+    <title>VIRU AI | SUPREME EDITION</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #00f2ff;
             --secondary: #006ae6;
-            --bg: #080a10;
-            --glass: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.1);
+            --bg: #05070a;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --user-gradient: linear-gradient(135deg, #00f2ff 0%, #006ae6 100%);
         }
 
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
         body {
             margin: 0;
             font-family: 'Inter', 'Noto Sans Sinhala', sans-serif;
-            background: radial-gradient(circle at top right, #0a192f, var(--bg));
+            background: #05070a;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 106, 230, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 242, 255, 0.1) 0%, transparent 40%);
             color: white;
             height: 100vh;
             display: flex;
@@ -30,73 +34,163 @@
 
         .app-container {
             width: 95%;
-            max-width: 850px;
-            height: 90vh;
+            max-width: 900px;
+            height: 85vh;
             background: var(--glass);
-            backdrop-filter: blur(25px);
+            backdrop-filter: blur(40px);
             border: 1px solid var(--border);
-            border-radius: 24px;
+            border-radius: 30px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);
+            position: relative;
         }
 
         header {
-            padding: 20px 30px;
+            padding: 25px 35px;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 24px 24px 0 0;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 30px 30px 0 0;
         }
 
         .status-dot {
-            width: 10px; height: 10px;
+            width: 8px; height: 8px;
             background: #00ff88;
             border-radius: 50%;
             display: inline-block;
-            box-shadow: 0 0 10px #00ff88;
+            margin-right: 8px;
+            box-shadow: 0 0 15px #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         #chat-window {
             flex: 1;
             overflow-y: auto;
-            padding: 25px;
+            padding: 30px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            scrollbar-width: thin;
+            gap: 20px;
         }
 
+        /* Custom Scrollbar */
+        #chat-window::-webkit-scrollbar { width: 5px; }
+        #chat-window::-webkit-scrollbar-track { background: transparent; }
+        #chat-window::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
         .msg {
-            max-width: 80%;
-            padding: 14px 20px;
-            border-radius: 18px;
+            max-width: 75%;
+            padding: 16px 22px;
+            border-radius: 20px;
             line-height: 1.6;
             font-size: 15px;
-            animation: fadeIn 0.4s ease forwards;
+            position: relative;
+            animation: slideUp 0.4s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .user-msg {
             align-self: flex-end;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--user-gradient);
             color: #000;
             font-weight: 600;
-            border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 10px 20px -5px rgba(0, 242, 255, 0.3);
         }
 
         .ai-msg {
             align-self: flex-start;
-            background: #1a1f2e;
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
-            border-bottom-left-radius: 4px;
+            border-bottom-left-radius: 5px;
             color: #e2e8f0;
         }
 
-        .typing-dots { display: flex; gap: 5px; padding: 10px; }
+        .input-group {
+            padding: 25px 35px;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            gap: 15px;
+            border-radius: 0 0 30px 30px;
+            align-items: center;
+        }
+
+        input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 18px 25px;
+            border-radius: 100px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
+        }
+
+        .btn-send {
+            background: white;
+            color: black;
+            border: none;
+            width: 55px; height: 55px;
+            border-radius: 50%;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-send:hover {
+            transform: scale(1.1) rotate(-10deg);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-clear {
+            background: transparent;
+            color: #ff4757;
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-clear:hover { background: rgba(255, 71, 87, 0.1); border-color: #ff4757; }
+
+        footer {
+            position: absolute;
+            bottom: -35px;
+            width: 100%;
+            text-align: center;
+            font-size: 11px;
+            color: #4b5563;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .typing-dots { display: flex; gap: 6px; padding: 5px 10px; }
         .typing-dots span {
-            width: 8px; height: 8px;
+            width: 6px; height: 6px;
             background: var(--primary);
             border-radius: 50%;
             animation: bounce 1.4s infinite ease-in-out both;
@@ -105,59 +199,8 @@
         .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
 
         @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1.0); }
-        }
-
-        .input-group {
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            display: flex;
-            gap: 12px;
-            border-radius: 0 0 24px 24px;
-        }
-
-        input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            padding: 15px 20px;
-            border-radius: 15px;
-            color: white;
-            font-size: 15px;
-            outline: none;
-        }
-
-        .btn-send {
-            background: white;
-            color: black;
-            border: none;
-            padding: 0 25px;
-            border-radius: 15px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-
-        .btn-clear {
-            background: rgba(255, 50, 50, 0.1);
-            color: #ff5050;
-            border: 1px solid rgba(255, 50, 50, 0.2);
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        footer {
-            padding: 10px;
-            text-align: center;
-            font-size: 10px;
-            color: #4b5563;
+            0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+            40% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
@@ -166,21 +209,24 @@
 <div class="app-container">
     <header>
         <div>
-            <span style="font-weight: 800; font-size: 20px; letter-spacing: 1px;">VIRU <span style="color: var(--primary);">AI</span></span>
-            <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;"><span class="status-dot"></span> Mega Trained Mode Active</div>
+            <div style="font-weight: 800; font-size: 22px; letter-spacing: 2px;">VIRU <span style="color: var(--primary);">AI</span></div>
+            <div style="font-size: 11px; color: #64748b; margin-top: 5px; display: flex; align-items: center;">
+                <span class="status-dot"></span> 
+                <span>SECURE & MEGA TRAINED</span>
+            </div>
         </div>
-        <button class="btn-clear" onclick="clearChat()">Clear Chat</button>
+        <button class="btn-clear" onclick="clearChat()">RESET CHAT</button>
     </header>
 
     <div id="chat-window">
-        <div class="msg ai-msg">මචං විරුණ! මම VIRU AI. මාව දැන් පට්ටටම ට්‍රේන් කරල තියෙන්නේ. අහන්න බලන්න මොනවා හරි! 🚀🔥</div>
+        <div class="msg ai-msg">අඩෝ විරුණ! මම සූදානම්. ඕන එකක් අහපන් බොක්ක! 🚀🔥</div>
     </div>
 
     <div class="input-group">
-        <input type="text" id="userInput" placeholder="ඔයාට ඕන දෙයක් අහන්න..." onkeypress="if(event.key === 'Enter') sendMessage()">
-        <button class="btn-send" onclick="sendMessage()">SEND</button>
+        <input type="text" id="userInput" placeholder="Ask anything..." onkeypress="if(event.key === 'Enter') sendMessage()">
+        <button class="btn-send" onclick="sendMessage()">➔</button>
     </div>
-    <footer>CREATED BY VIRUNA</footer>
+    <footer>Powerd by Viruna Core Systems</footer>
 </div>
 
 <script>
@@ -190,11 +236,9 @@
         const text = input.value.trim();
         if (!text) return;
 
-        // 1. User Message පෙන්නනවා (Instant Response feel එකක් දෙන්න)
         chatWindow.innerHTML += `<div class="msg user-msg">${text}</div>`;
         input.value = '';
         
-        // 2. Typing Loader එක දානවා
         const loadingDiv = document.createElement("div");
         loadingDiv.className = "msg ai-msg";
         loadingDiv.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div>`;
@@ -202,34 +246,26 @@
         chatWindow.scrollTop = chatWindow.scrollHeight;
 
         try {
-            // 🎯 රිප්ලයි එක එන්න පරක්කු නම් යූසර්ට මැසේජ් එකක් දෙන්න timeout එකක් දාමු
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000); // තත්පර 10ක් බලනවා
+            const timeoutId = setTimeout(() => controller.abort(), 12000);
 
-            // 🎯 උඹේ Vercel API එක
             const response = await fetch(`https://viru-ai-api.vercel.app/api/chat?msg=${encodeURIComponent(text)}`, { signal: controller.signal });
             const data = await response.json();
             
             clearTimeout(timeoutId);
             chatWindow.removeChild(loadingDiv);
-            
-            // 🎯 Backend එකෙන් එන Reply එක
             chatWindow.innerHTML += `<div class="msg ai-msg">${data.reply}</div>`;
             
         } catch (e) {
             chatWindow.removeChild(loadingDiv);
-            if (e.name === 'AbortError') {
-                chatWindow.innerHTML += `<div class="msg ai-msg">නෙට් එක ටිකක් ස්ලෝ වගේ මචං, පොඩ්ඩක් ඉඳලා ආයේ ට්‍රයි කරමු! 😅👊</div>`;
-            } else {
-                // සර්වර් එකේ අවුලක් වුණොත් උඹේ Signature එකම දෙනවා
-                chatWindow.innerHTML += `<div class="msg ai-msg">විරුණ තාම මට ඕවා කියලා දුන්නේ නෑ බං, එයාටත් වැඩ නේ ඉතින්.. 😂😅👊</div>`;
-            }
+            const errorMsg = e.name === 'AbortError' ? "නෙට් එක ස්ලෝ වගේ මචං! 😅" : "විරුණ තාම මට ඕවා කියලා දුන්නේ නෑ බං, එයාටත් වැඩ නේ ඉතින්.. 😂😅👊";
+            chatWindow.innerHTML += `<div class="msg ai-msg">${errorMsg}</div>`;
         }
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
     function clearChat() {
-        document.getElementById('chat-window').innerHTML = `<div class="msg ai-msg">හරි මචං, අලුතින් පටන් ගමු! 🚀</div>`;
+        document.getElementById('chat-window').innerHTML = `<div class="msg ai-msg">හරි බොක්ක, clear කළා! 🚀</div>`;
     }
 </script>
 
