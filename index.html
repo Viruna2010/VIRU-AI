@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIRU AI | GEMINI EDITION</title>
+    <title>VIRU AI | PROFESSIONAL GEMINI EDITION</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #131314; /* Gemini Dark Background */
+            --bg-color: #131314;
             --nav-bg: #1e1f20;
             --text-main: #e3e3e3;
             --user-msg-bg: #2b2c2f;
             --ai-msg-bg: transparent;
             --border-color: #444746;
+            --accent: #a8c7fa;
         }
 
         body {
@@ -23,6 +24,7 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         header {
@@ -31,6 +33,7 @@
             justify-content: space-between;
             align-items: center;
             background: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
         }
 
         #chat-window {
@@ -43,12 +46,22 @@
             scrollbar-width: thin;
         }
 
+        #chat-window::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chat-window::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+
         .msg {
             max-width: 85%;
-            padding: 12px 16px;
+            padding: 12px 18px;
             line-height: 1.6;
             font-size: 16px;
             border-radius: 12px;
+            word-wrap: break-word;
         }
 
         .user-msg {
@@ -60,8 +73,7 @@
         .ai-msg {
             align-self: flex-start;
             background-color: var(--ai-msg-bg);
-            display: flex;
-            gap: 15px;
+            border: none;
         }
 
         .input-area {
@@ -72,14 +84,15 @@
         .input-container {
             background: #1e1f20;
             border-radius: 30px;
-            padding: 10px 25px;
+            padding: 5px 20px;
             display: flex;
             align-items: center;
-            border: 1px solid transparent;
+            border: 1px solid var(--border-color);
         }
 
         .input-container:focus-within {
-            border-color: #a8c7fa;
+            border-color: var(--accent);
+            background: #252627;
         }
 
         input {
@@ -95,40 +108,68 @@
         .btn-send {
             background: transparent;
             border: none;
-            color: #a8c7fa;
+            color: var(--accent);
             cursor: pointer;
             font-size: 24px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 11px;
+            color: #9aa0a6;
+            letter-spacing: 2px;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            font-weight: 500;
         }
 
         .typing-dots span {
             width: 8px; height: 8px;
-            background: #a8c7fa;
+            background: var(--accent);
             border-radius: 50%;
             display: inline-block;
             animation: bounce 1.4s infinite ease-in-out;
+            margin: 0 2px;
         }
 
-        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        @keyframes bounce { 
+            0%, 80%, 100% { transform: scale(0); } 
+            40% { transform: scale(1); } 
+        }
+
+        @media (max-width: 600px) {
+            #chat-window, .input-area { padding: 15px 5%; }
+            .msg { max-width: 90%; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div style="font-weight: 500; font-size: 20px;">VIRU <span style="color: #a8c7fa;">AI</span></div>
-        <button style="background:none; border:none; color:#9aa0a6; cursor:pointer;" onclick="location.reload()">New Chat</button>
+        <div style="font-weight: 600; font-size: 20px; letter-spacing: 1px;">VIRU <span style="color: var(--accent);">AI</span></div>
+        <button style="background:none; border:1px solid #444746; color:#e3e3e3; cursor:pointer; padding: 6px 12px; border-radius: 20px; font-size: 12px;" onclick="location.reload()">New Chat</button>
     </header>
 
     <div id="chat-window">
-        <div class="msg ai-msg">අඩෝ බොක්ක! මම සූදානම්. කියපන් බලන්න Gemini ස්ටයිල් එක කොහොමද කියලා? 🚀🔥</div>
+        <div class="msg ai-msg">
+            Welcome! I am Viru AI, your advanced creative assistant. 🤖✨ <br><br>
+            ආයුබෝවන්! මම විරූ AI. ඔයාගේ නිර්මාණශීලී වැඩකටයුතු සඳහා උදව් කිරීමට මම සූදානම්. අද අපි මොකක්ද කරන්නේ? 🚀🔥
+        </div>
     </div>
 
     <div class="input-area">
         <div class="input-container">
-            <input type="text" id="userInput" placeholder="ඔයාට ඕන දෙයක් අහන්න..." onkeypress="if(event.key === 'Enter') sendMessage()">
+            <input type="text" id="userInput" placeholder="Ask Viru AI..." onkeypress="if(event.key === 'Enter') sendMessage()">
             <button class="btn-send" onclick="sendMessage()">➔</button>
         </div>
-        <p style="text-align:center; font-size:12px; color:#9aa0a6; margin-top:10px;">Viru AI can make mistakes. Check important info.</p>
     </div>
+
+    <footer>CREATED BY VIRUNA</footer>
 
     <script>
         async function sendMessage() {
@@ -137,23 +178,33 @@
             const text = input.value.trim();
             if (!text) return;
 
+            // User message එක ඇඩ් කිරීම
             chatWindow.innerHTML += `<div class="msg user-msg">${text}</div>`;
             input.value = '';
             
+            // Loading animation එක ඇඩ් කිරීම
             const loadingDiv = document.createElement("div");
             loadingDiv.className = "msg ai-msg";
+            loadingDiv.id = "loading";
             loadingDiv.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div>`;
             chatWindow.appendChild(loadingDiv);
             chatWindow.scrollTop = chatWindow.scrollHeight;
 
             try {
+                // API එකට මැසේජ් එක යැවීම
                 const response = await fetch(`https://viru-ai-api.vercel.app/api/chat?msg=${encodeURIComponent(text)}`);
                 const data = await response.json();
-                chatWindow.removeChild(loadingDiv);
+                
+                // Loading එක අයින් කර උත්තරය පෙන්වීම
+                const loading = document.getElementById("loading");
+                if (loading) chatWindow.removeChild(loading);
+                
                 chatWindow.innerHTML += `<div class="msg ai-msg">${data.reply}</div>`;
             } catch (e) {
-                chatWindow.removeChild(loadingDiv);
-                chatWindow.innerHTML += `<div class="msg ai-msg">මට තාම ඕවා කියලා දුන්නේ නෑ බං.. 😂😅👊</div>`;
+                // Error එකක් ආවොත් පෙන්වන මැසේජ් එක
+                const loading = document.getElementById("loading");
+                if (loading) chatWindow.removeChild(loading);
+                chatWindow.innerHTML += `<div class="msg ai-msg">සමාවන්න, සේවාව තාවකාලිකව අඩපණ වී ඇත. කරුණාකර පසුව උත්සාහ කරන්න. 🛠️</div>`;
             }
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
