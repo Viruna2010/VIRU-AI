@@ -14,9 +14,14 @@
         @keyframes pop { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
         .u { align-self: flex-end; background: var(--user); border-bottom-right-radius: 5px; }
         .a { align-self: flex-start; border-left: 4px solid var(--accent); background: rgba(255,255,255,0.03); border-bottom-left-radius: 5px; }
-        .loader-container { display: none; align-self: flex-start; margin-left: 10%; padding: 10px; }
-        .spinner { width: 28px; height: 28px; border: 3px solid rgba(168, 199, 250, 0.1); border-top: 3px solid var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        
+        /* Professional Thinking Loader */
+        .loader-container { display: none; align-items: center; gap: 12px; align-self: flex-start; margin-left: 10%; padding: 10px; }
+        .spinner { width: 20px; height: 20px; border: 2px solid rgba(168, 199, 250, 0.1); border-top: 2px solid var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .thinking-text { font-size: 14px; color: var(--accent); opacity: 0.8; font-weight: 400; letter-spacing: 0.5px; }
+        
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
         .input-box { padding: 20px 10%; background: var(--bg); }
         .container { background: var(--card); border-radius: 35px; padding: 8px 25px; display: flex; border: 1px solid var(--border); }
         input { flex: 1; background: transparent; border: none; color: white; padding: 12px; font-size: 16px; outline: none; }
@@ -31,7 +36,12 @@
             ආයුබෝවන්! මම විරූ AI. ඔයාගේ නිර්මාණශීලී වැඩකටයුතු සඳහා උදව් කිරීමට මම සූදානම්. අද අපි මොකක්ද කරන්නේ? 🚀🔥
         </div>
     </div>
-    <div id="loader" class="loader-container"><div class="spinner"></div></div>
+
+    <div id="loader" class="loader-container">
+        <div class="spinner"></div>
+        <div class="thinking-text">Viru AI is thinking...</div>
+    </div>
+
     <div class="input-box"><div class="container">
         <input type="text" id="in" placeholder="Ask Viru AI..." autocomplete="off">
         <button onclick="send()">➔</button>
@@ -47,7 +57,10 @@
             input.value = '';
             chat.innerHTML += `<div class="msg u">${val}</div>`;
             chat.scrollTop = chat.scrollHeight;
-            loader.style.display = 'block';
+            
+            // Show professional loader
+            loader.style.display = 'flex';
+            
             try {
                 const res = await fetch(`https://viru-ai-api.vercel.app/api/chat?msg=${encodeURIComponent(val)}`);
                 const data = await res.json();
