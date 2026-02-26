@@ -3,85 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIRU AI | SUPREME EDITION</title>
+    <title>VIRU AI | SUPREME</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #131314; --card: #1e1f20; --text: #e3e3e3; --accent: #a8c7fa; --user: #2b2c2f; --border: #333; }
         body { margin: 0; font-family: 'Inter', 'Noto Sans Sinhala', sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-        header { padding: 15px 25px; background: var(--card); border-bottom: 1px solid var(--border); font-weight: 700; font-size: 22px; display: flex; justify-content: space-between; align-items: center; }
-        
+        header { padding: 15px 25px; background: var(--card); border-bottom: 1px solid var(--border); font-weight: 700; font-size: 22px; display: flex; justify-content: space-between; }
         #chat { flex: 1; overflow-y: auto; padding: 20px 10%; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth; }
-        .msg { max-width: 85%; padding: 14px 20px; border-radius: 20px; line-height: 1.6; font-size: 16px; animation: pop 0.2s ease-out; position: relative; }
-        @keyframes pop { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
+        .msg { max-width: 85%; padding: 14px 20px; border-radius: 20px; line-height: 1.6; font-size: 16px; animation: pop 0.2s ease; }
+        @keyframes pop { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
         .u { align-self: flex-end; background: var(--user); border-bottom-right-radius: 5px; }
         .a { align-self: flex-start; border-left: 4px solid var(--accent); background: rgba(255,255,255,0.03); border-bottom-left-radius: 5px; }
-
-        /* Gemini Style Loader */
         .loader-container { display: none; align-self: flex-start; margin-left: 10%; padding: 10px; }
-        .spinner {
-            width: 24px; height: 24px;
-            border: 3px solid rgba(168, 199, 250, 0.2);
-            border-top: 3px solid var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
+        .spinner { width: 28px; height: 28px; border: 3px solid rgba(168, 199, 250, 0.1); border-top: 3px solid var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
         .input-box { padding: 20px 10%; background: var(--bg); }
         .container { background: var(--card); border-radius: 35px; padding: 8px 25px; display: flex; border: 1px solid var(--border); }
         input { flex: 1; background: transparent; border: none; color: white; padding: 12px; font-size: 16px; outline: none; }
         button { background: transparent; border: none; color: var(--accent); cursor: pointer; font-size: 26px; }
-
-        @media (max-width: 600px) { #chat, .input-box { padding: 15px 5%; } }
     </style>
 </head>
 <body>
-    <header><div>VIRU <span style="color:var(--accent)">AI</span></div><button style="font-size:12px; color:#666;" onclick="location.reload()">New Chat</button></header>
-    
+    <header><div>VIRU <span style="color:var(--accent)">AI</span></div><button style="font-size:11px; color:#555;" onclick="location.reload()">REFRESH</button></header>
     <div id="chat">
         <div class="msg a">
             Welcome! I am Viru AI, your advanced creative assistant. 🤖✨ <br><br>
             ආයුබෝවන්! මම විරූ AI. ඔයාගේ නිර්මාණශීලී වැඩකටයුතු සඳහා උදව් කිරීමට මම සූදානම්. අද අපි මොකක්ද කරන්නේ? 🚀🔥
         </div>
     </div>
-
     <div id="loader" class="loader-container"><div class="spinner"></div></div>
-
     <div class="input-box"><div class="container">
         <input type="text" id="in" placeholder="Ask Viru AI..." autocomplete="off">
         <button onclick="send()">➔</button>
     </div></div>
-
     <script>
         const chat = document.getElementById('chat');
         const input = document.getElementById('in');
         const loader = document.getElementById('loader');
-
         input.addEventListener("keypress", (e) => { if(e.key === "Enter") send(); });
-
         async function send() {
             const val = input.value.trim();
             if(!val) return;
             input.value = '';
-            
-            // Add User Message
             chat.innerHTML += `<div class="msg u">${val}</div>`;
             chat.scrollTop = chat.scrollHeight;
-
-            // Show Spinner
             loader.style.display = 'block';
-
             try {
                 const res = await fetch(`https://viru-ai-api.vercel.app/api/chat?msg=${encodeURIComponent(val)}`);
                 const data = await res.json();
                 loader.style.display = 'none';
-
-                // Add AI Message
                 chat.innerHTML += `<div class="msg a">${data.reply}</div>`;
             } catch {
                 loader.style.display = 'none';
-                chat.innerHTML += `<div class="msg a">සර්වර් එකේ පොඩි අවුලක්. ආයෙත් ට්‍රයි කරන්න! 🛠️</div>`;
+                chat.innerHTML += `<div class="msg a">Error! Try again. 🛠️</div>`;
             }
             chat.scrollTop = chat.scrollHeight;
         }
